@@ -13,6 +13,7 @@ const schema=buildSchema(`
         password: String!
         birthDate:String!
         image:String!
+        blogsWritten:[Blog!]
     }
 
     type Blog {
@@ -20,7 +21,7 @@ const schema=buildSchema(`
         title:String!
         image:String!
         body:String!
-        creator:String!
+        creator:User!
         created:String!
     }
 
@@ -53,6 +54,7 @@ const schema=buildSchema(`
     }
 
     type RootQuery {
+        getUser:User!
         user:[User!]!
         blogs:[Blog!]!
         login(email: String!, password: String!): AuthData!

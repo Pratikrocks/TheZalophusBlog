@@ -17,12 +17,15 @@ const BlogSchema=new Schema({
     },
     creator:{
         type:Schema.Types.ObjectId,
-        required:true
+        required:true,        
+        ref:'User'
+        
     },
     created:{
         type:String,
         required:true
-    }
+    },
+    
 })
 
 module.exports=mongoose.model('Blog', BlogSchema);

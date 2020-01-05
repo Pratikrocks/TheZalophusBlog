@@ -22,6 +22,9 @@ const Blog=(props)=>
                                     <div className="description" style={{width:"440px",wordWrap:"break-word"}}>
                                         <p>{ item.body.substring(0,150) }...</p>
                                     </div>
+                                    <div>
+                                        Written By:{item.creator.fname}
+                                    </div>
                                     <div className="extra">
                                         <Link className="ui violet basic button readm" to={ '/blog/'+item._id }>
                                             Read More

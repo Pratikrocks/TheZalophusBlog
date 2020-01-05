@@ -4,6 +4,14 @@ const jwt = require('jsonwebtoken');
 const User=require('../../models/user');
 
 module.exports = {
+    getUser: async(args,request)=>{
+        return User.findById("5e1047250d1de108d5f0009f")
+        .then(res=>{
+          return{
+            ...res._doc
+          }
+        })
+    },
     createUser: async (args, request )=> {
       try {
         const existingUserEmail = await User.findOne({ email: args.userInput.email });
