@@ -15,6 +15,15 @@ const NavbarComponent=(props)=>
     const login=(type)=>{
         props.history.push(`/${type}`);
     }
+    const requestForBlogs=(uid)=>
+    {
+        
+    }
+    const myBlogs=()=>
+    {
+        const uid = localStorage.getItem("uid");
+        console.log(uid);
+    }
 
     return(
         <React.Fragment>
@@ -37,7 +46,9 @@ const NavbarComponent=(props)=>
                     </Nav>
                     { props.isLoggedin===false ? <Button type="primary" onClick={()=>{ login('login') }}>Login</Button> : null }
                     { props.isLoggedin===false ? <Button type="primary" onClick={()=>{ login('signup') }}>Sign Up</Button> : null }
+                    { props.isLoggedin===true ? <Button type="link" onClick={myBlogs} >Your Blogs</Button>:null}
                     { props.isLoggedin===true ? <Button type="primary" onClick={ logout }>Logout</Button> : null }
+                    
                 </Navbar.Collapse>
             </Navbar>
         </React.Fragment>
