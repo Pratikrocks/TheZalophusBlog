@@ -13,6 +13,7 @@ class App extends Component {
     isLoggedin:''
   }
   changeState=(val)=>{
+    console.log(val)
     this.setState({ isLoggedin:val })
   }
   componentDidMount(){
@@ -25,30 +26,29 @@ class App extends Component {
     return (
       <BrowserRouter>
         <React.Fragment>
-            <main className="main-content">
+            <main>
               <NavbarComponent isLoggedin={ this.state.isLoggedin } changeState={ this.changeState } />
               <Switch>
-                {/* <Route exact path="/" render={props=>(
-                  this.state.isLoggedin===true ? <Redirect to="/home"/> : ( this.state.isLoggedin===false ? <AuthPage {...props} /> : null )  
-                )} />
-                <Route path="/home" render={props=>(
-                  this.state.isLoggedin===true ? <Homepage {...props} /> : (this.state.isLoggedin===false ? <Redirect to="/" /> : null )
-                )} /> */}
+         
                 <Route exact path="/" render={props=>(
                   <Homepage {...props} changeState={ this.changeState } />
                 )} />
-                {/* <Route path="/signup" render={props=>(
-                  this.state.isLoggedin===true ? <Redirect to="/" /> : ( this.state.isLoggedin===false ? <AuthPage {...props} changeState={ this.changeState } /> : null )
-                )} /> */}
+          
                 <Route path="/new" render={props=>(
                   this.state.isLoggedin===true ? <CreateBlogForm {...props} /> : (this.state.isLoggedin===false ? <Redirect to="/login" /> : null)
                 )} />
+
+
                 <Route path="/login" render={props=>(
                   this.state.isLoggedin===true ? <Redirect to='/' /> : ( this.state.isLoggedin===false ? <Login {...props} changeState={ this.changeState } /> : null )
                 )} />
+
+
                 <Route path="/signup" render={props=>(
                   this.state.isLoggedin===true ? <Redirect to='/' /> : ( this.state.isLoggedin===false ? <Register { ...props } /> : null )
                 )} />
+
+
               </Switch>
             </main>
         </React.Fragment>

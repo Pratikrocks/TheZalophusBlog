@@ -38,7 +38,13 @@ const userSchema=new Schema({
     description:{
         type:String,
         default:null
+    },
+    blogsWritten:[
+        {
+        type:Schema.Types.ObjectId,
+        ref:"Blog"
     }
+    ]
 })
 
 module.exports=mongoose.model('User',userSchema);

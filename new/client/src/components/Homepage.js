@@ -19,7 +19,7 @@ const Homepage=(props)=>
       return res.json();
     }).then((res)=>{
       console.log(res);
-      type==='blogs' ? setBlogs(res.data.blogs) : setBlogs(res.data.getAllBlogs)
+      type==='blogs'?setBlogs(res.data.blogs):setBlogs(res.data.getAllBlogs)
     }).catch((err)=>{
       console.log(err);
     })
@@ -38,7 +38,9 @@ const Homepage=(props)=>
             title
             image
             body
-            creator
+            creator{
+              fname
+            }
             created
           }
         }
@@ -57,7 +59,9 @@ const Homepage=(props)=>
             title
             image
             body
-            creator
+            creator{
+              fname
+            }
             created
           }
         }
@@ -70,6 +74,7 @@ const Homepage=(props)=>
   return(
     <>
     {/* <NavbarComponent props={ props } /> */}
+    
     <Blog blogs={ blogs } />
     </>
   )

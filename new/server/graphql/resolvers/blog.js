@@ -1,5 +1,30 @@
 const BlogModel=require('../../models/blog');
+const User = require("../../models/user")
 
+user = userID =>{
+    console.log(userID)
+    return User.findById(userID)
+    .then(res=>{
+        return{
+            ...res._doc,
+            _id:res.id,
+            blogsWritten:blog.bind(this,res.blogsWritten)
+        }
+    })
+}
+blog = blogIDS =>{
+   return BlogModel.find({_id: {$in:blogIDS}})
+   .then(blogs=>{
+       return blogs.map(blog=>{
+           return{
+               ...blog._doc,
+               _id: blog.id,
+               creator: user.bind(this,blog.creator)
+           }
+       })
+   })
+   .catch(err=>console.log(err))
+}
 module.exports={
     blogs:async (args, request)=>{
         if(!request.isAuth){
@@ -7,10 +32,12 @@ module.exports={
             throw new Error("Unauthenticated");
         }
         const uid=request.userId;
-        return BlogModel.find({ creator:uid })
-        .then((blogs)=>{
-            return blogs.map(blog=>{
-                return {...blog._doc, _id:blog.id};
+        console.log(uid)
+        return BlogModel.find()
+        .then((blogs_)=>{
+            return blogs_.map(blog=>{
+                
+                return {...blog._doc, _id:blog.id,creator:user.bind(this,blog.creator)};
             })
         }).catch((err)=>{
             console.log(err);
@@ -29,16 +56,35 @@ module.exports={
             creator:uid,
             created:new Date().toDateString()
         })
-        const result=await blog.save();
-        console.log(result);
-        return {...result._doc};
+        let WrittenBlogs
+        return blog.save()
+        .then((result)=>{
+            WrittenBlogs = {...result._doc,_id:result._doc._id.toString(),creator:user.bind(this,result.creator)};
+            return User.findById(uid)
+        })
+        .then(user =>{
+            console.log("WORKING WELL!!")
+            console.log(user)
+            user.blogsWritten.push(blog)
+            return user.save()
+            
+        })
+        .then(result=>{
+            return WrittenBlogs;
+        })
+        .catch(err=>console.log(err))
+       
     },
     getAllBlogs: async (args, request)=>{
+        console.log("Get All")
         return BlogModel.find()
         .then((blogs)=>{
-            console.log(blogs);
+          
             return blogs.map(blog=>{
-                return {...blog._doc, _id:blog.id};
+                return {...blog._doc,
+                         _id:blog.id,
+                         creator:user.bind(this,blog.creator)
+                        };
             })
         }).catch((err)=>{
             console.log(err);
